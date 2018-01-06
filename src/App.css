@@ -1,0 +1,12 @@
+.breadcrumb:before {
+  color: #0d47a1;
+}
+
+.logo {
+  margin-left: 1rem;
+}
+
+nav.clean {
+  background: none;
+  box-shadow: none;
+}
