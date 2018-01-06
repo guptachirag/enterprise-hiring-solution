@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Materialize from '../node_modules/materialize-css/dist/js/materialize.js'
-import $ from '../node_modules/jquery/dist/jquery.js'
 
 var vacancies = [
   {
