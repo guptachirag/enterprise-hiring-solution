@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Materialize from '../node_modules/materialize-css/dist/js/materialize.js'
+import '../node_modules/materialize-css/dist/js/materialize.js'
+import '../node_modules/materialize-css/dist/css/materialize.css'
+import $ from '../node_modules/jquery/dist/jquery.js'
 import logo from './logo.svg';
 
 var candidates = [
@@ -10,7 +12,7 @@ var candidates = [
     "phone": "9873772059",
     "email": "chiragguptadtu@gmail.com",
     "resume": logo,
-    "application_status": "accepted",
+    "application_status": "Accepted",
   },
   {
     "id": 2,
@@ -19,7 +21,7 @@ var candidates = [
     "phone": "9873772059",
     "email": "chiragguptadtu@gmail.com",
     "resume": logo,
-    "application_status": "selected",
+    "application_status": "Selected",
   },
   {
     "id": 3,
@@ -28,7 +30,7 @@ var candidates = [
     "phone": "9873772059",
     "email": "chiragguptadtu@gmail.com",
     "resume": logo,
-    "application_status": "rejected",
+    "application_status": "Rejected",
   },
 ];
 
@@ -76,6 +78,7 @@ class CandidateModal extends Component {
         last_name: '',
         phone: '',
         email: '',
+        application_status: ''
       }
     }
     return this.props.candidate
@@ -94,8 +97,9 @@ class CandidateModal extends Component {
     this.props.refreshCandidates();
   }
   componentDidMount() {
-    new Materialize.Modal(document.querySelector("#"+this.props.id), {});
-    Materialize.updateTextFields();
+    $("#"+this.props.id).modal();
+    $('select#'+this.props.id).material_select();
+    $('select#'+this.props.id).on('change', this.handleChange);
   }
   render() {
     return (
@@ -113,6 +117,13 @@ class CandidateModal extends Component {
             </div>
             <div className="input-field">
               <input placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange} type="email" className="validate" />
+            </div>
+            <div className="input-field">
+              <select id={this.props.id} name="application_status" value={this.state.application_status} onChange={this.handleChange}>
+                <option value="Accepted">Accepted</option>
+                <option value="Selected">Selected</option>
+                <option value="Rejected">Rejected</option>
+              </select>
             </div>
             <div className="file-field input-field">
               <div className="btn blue darken-4">
@@ -145,6 +156,7 @@ class CandidateCard extends Component {
             <label>Last Name</label><p>{this.props.candidate.last_name}</p>
             <label>Phone</label><p>{this.props.candidate.phone}</p>
             <label>Email</label><p>{this.props.candidate.email}</p>
+            <label>Application Status</label><p>{this.props.candidate.application_status}</p>
           </div>
           <div className="card-action">
             <a href={"#" + candidateModalId} className="blue-text text-darken-4 modal-trigger">Edit</a>
@@ -188,7 +200,7 @@ class CandidateLayout extends Component {
         <div className="divider"></div>
         <div className="section">
           {
-            this.state.candidates.map((candidate) => <CandidateCard candidate={candidate} refreshCandidates={this.refreshCandidates} />)
+            this.state.candidates.map((candidate) => <CandidateCard key={candidate.id} candidate={candidate} refreshCandidates={this.refreshCandidates} />)
           }
         </div>
       </div>
