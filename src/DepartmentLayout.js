@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import Materialize from '../node_modules/materialize-css/dist/js/materialize.js'
+
+import '../node_modules/materialize-css/dist/js/materialize.js'
 import '../node_modules/materialize-css/dist/css/materialize.css'
+import $ from '../node_modules/jquery/dist/jquery.js'
+
 import logo from './logo.svg';
 
 
@@ -83,8 +86,7 @@ class DepartmentModal extends Component {
     this.props.refreshDepartments();
   }
   componentDidMount() {
-    new Materialize.Modal(document.querySelector("#"+this.props.id), {});
-    Materialize.updateTextFields();
+    $("#"+this.props.id).modal();
   }
   render() {
     return (
