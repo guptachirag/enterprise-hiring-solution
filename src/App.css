@@ -1,9 +1,13 @@
 .breadcrumb:before {
-  color: #0d47a1;
+  color: #0d4000;
 }
 
 .margin-left {
   margin-left: 1rem;
+}
+
+.margin-right {
+  margin-right: 1rem;
 }
 
 nav.clean {
@@ -12,7 +16,14 @@ nav.clean {
 }
 
 .auth {
-  margin-left: 20rem;
-  margin-right: 20rem;
-  margin-top: 10rem;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 10%;
+}
+
+.profile {
+  display: inline-block;
+  vertical-align: middle;
+  height: 3rem;
+  width: auto;
 }
