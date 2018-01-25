@@ -4,7 +4,7 @@ import Navbar from './Navbar'
 import DepartmentLayout from './DepartmentLayout'
 import VacancyLayout from './VacancyLayout'
 import CandidateLayout from './CandidateLayout'
-import AuthLayout from './AuthLayout'
+import AuthLayout, {ProfileLayout} from './AuthLayout'
 import { BrowserRouter } from 'react-router-dom'
 import './App.css'
 
@@ -16,6 +16,9 @@ class Content extends Component {
           <BrowserRouter>
             <Switch>
               <Route exact path='/departments' component={DepartmentLayout} />
+              <Route exact path='/profile' render={
+                ()=> <ProfileLayout profile={this.props.profile} setProfile={this.props.setProfile} />
+                } />
               <Route path='/departments/:id/Vacancies' component={VacancyLayout} />
               <Route path='/vacancies/:id/candidates' component={CandidateLayout} />
               <Route exact path='*' render={() => <Redirect to='/departments' />} />
@@ -34,17 +37,7 @@ class Content extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-    var cachedState = JSON.parse(sessionStorage.getItem('user'));
-    var defaultState = JSON.stringify({
-      'id': '',
-      'username': '',
-      'password': '',
-      'name': '',
-      'phone': '',
-      'profile': '',
-      'email': '',
-    });
-    this.state = cachedState || defaultState;
+    this.state = JSON.parse(sessionStorage.getItem('user')) || '{}';
     this.setProfile = this.setProfile.bind(this);
   }
 
@@ -56,7 +49,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar profile={this.state} />
+        <Navbar profile={this.state} setProfile={this.setProfile} />
         <Content profile={this.state} setProfile={this.setProfile} />
       </div>
     );

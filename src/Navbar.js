@@ -10,6 +10,12 @@ class ProfileDropdown extends Component {
     });
   }
 
+  resetProfile() {
+    this.props.setProfile({
+      'id': ''
+    });
+  }
+
   componentDidMount() {
     this.initializeDropdown();
   }
@@ -22,13 +28,13 @@ class ProfileDropdown extends Component {
     if (this.props.profile.id) {
       return (
         <div>
-          <a className='dropdown-button right margin-right' href='#!' data-activates='profile-dropdown'>
-            <img src={this.props.profile.profile} alt="profile" className="profile circle" />
+          <a className='dropdown-button right margin-right' data-activates='profile-dropdown'>
+            <img src={this.props.profile.profile_pic} alt="profile" className="profile circle" />
           </a>
           <ul id='profile-dropdown' className='dropdown-content'>
             <li><a href="/profile">Profile</a></li>
             <li className="divider"></li>
-            <li><a href="/signout">Signout</a></li>
+            <li><a onClick={this.resetProfile.bind(this)}>Signout</a></li>
           </ul>
         </div>
       );
@@ -48,7 +54,7 @@ class Navbar extends Component {
         <nav>
           <div className="nav-wrapper">
             <a href="#!" className="brand-logo margin-left">Enterprise Hiring Solution</a>
-            <ProfileDropdown profile={this.props.profile} />
+            <ProfileDropdown profile={this.props.profile} setProfile={this.props.setProfile} />
           </div>
         </nav>
       </div>

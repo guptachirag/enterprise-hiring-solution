@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../node_modules/materialize-css/dist/js/materialize.js'
 import '../node_modules/materialize-css/dist/css/materialize.css'
+import $ from '../node_modules/jquery/dist/jquery.js'
 import logo from './logo.svg';
+import { Redirect } from 'react-router-dom'
 
 var users = [
   {
@@ -10,7 +12,7 @@ var users = [
     'password': 'password1',
     'name': 'chirag gupta1',
     'phone': '9873772059',
-    'profile': logo,
+    'profile_pic': logo,
     'email': 'chiragguptadtu+1@gmail.com',
   },
   {
@@ -19,7 +21,7 @@ var users = [
     'password': 'password2',
     'name': 'chirag gupta2',
     'phone': '9873772019',
-    'profile': logo,
+    'profile_pic': logo,
     'email': 'chiragguptadtu+2@gmail.com',
   },
 ];
@@ -33,8 +35,8 @@ class UserAPI {
   static updateUser(id, data) {
     users.forEach(function(user, index) {
       if (user.id === id) {
-        data.forEach(function(key, val) {
-          user[key] = val;
+        Object.keys(data).forEach(function(key) {
+          user[key] = data[key];
         });
       }
     });
@@ -98,7 +100,7 @@ class Login extends Component {
 class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.props.profile || {
       name: '',
       username: '',
       password: '',
@@ -115,10 +117,12 @@ class Register extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.props.id === undefined) {
+    var profile = this.props.profile || {};
+    if (profile.id === undefined) {
       UserAPI.createUser(this.state);
     } else {
-      UserAPI.updateUser(this.props.id, this.state);
+      UserAPI.updateUser(profile.id, this.state);
+      this.props.editProfileRedirect()
     }
   }
 
@@ -159,8 +163,49 @@ class Register extends Component {
   }
 }
 
+export class ProfileLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      'editProfileRedirect': false
+    }
+    this.editProfileRedirect = this.editProfileRedirect.bind(this);
+  }
+
+  editProfileRedirect() {
+    this.setState({
+      'editProfileRedirect': true
+    });
+  }
+
+  render() {
+    if (this.state.editProfileRedirect === true) {
+      return (
+        <Redirect to="/" />
+      );
+    } else {
+      return (
+        <div>
+          <div className="section">
+            <h5 className="center">Edit Profile</h5>
+          </div>
+          <div className="divider"></div>
+          <div className="section">
+            <Register profile={this.props.profile} editProfileRedirect={this.editProfileRedirect} />
+          </div>
+        </div>
+      );
+    }
+  }
+}
+
 
 class AuthLayout extends Component {
+
+  componentDidMount() {
+    $('ul.tabs').tabs();
+  }
+
   render() {
     return (
       <div>
